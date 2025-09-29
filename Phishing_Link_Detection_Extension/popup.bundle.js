@@ -4,7 +4,7 @@
 
 // === Replace with your real GitHub Models token ===
 // Make sure your token has the 'models:read' permission!
-const token = "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";
+const token = "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";
 
 // GitHub Models inference endpoint
 const endpoint = "https://models.github.ai/inference";
