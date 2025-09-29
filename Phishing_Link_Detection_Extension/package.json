@@ -1,0 +1,24 @@
+{
+  "name": "ai_in_action",
+  "version": "1.0.0",
+  "description": "# Chat https://chatgpt.com/share/68d7af40-e4e0-8013-9f56-ad65a60ef9a5",
+  "main": "popup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2716924/AI_in_action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2716924/AI_in_action/issues"
+  },
+  "homepage": "https://github.com/2716924/AI_in_action#readme",
+  "dependencies": {
+    "@azure-rest/ai-inference": "^1.0.0-beta.6",
+    "@azure/core-auth": "^1.10.1"
+  }
+}

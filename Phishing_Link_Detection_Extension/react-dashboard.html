@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        .phishing-dashboard {
+            padding: 2rem;
+            background-color: #0f172a;
+            min-height: 100vh;
+            width: 100vw;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #e2e8f0;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .dashboard-header p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .stat-card.suspicious {
+            border-left: 4px solid #f97316;
+            background: #292524;
+        }
+
+        .stat-card.danger {
+            border-left: 4px solid #dc2626;
+            background: #291e1e;
+        }
+
+        .stat-icon {
+            padding: 0.75rem;
+            border-radius: 8px;
+            background-color: #334155;
+            color: #94a3b8;
+            font-size: 24px;
+        }
+
+        .stat-content h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #94a3b8;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-subtitle {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .chart-section {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+        }
+
+        .chart-section h2 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .risk-history-chart {
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
+
+        .risk-bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .risk-bar-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #94a3b8;
+        }
+
+        .risk-bar-wrapper {
+            height: 220px;
+            display: flex;
+            align-items: end;
+        }
+
+        .risk-bar {
+            width: 60px;
+            border-radius: 4px 4px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 0.5rem;
+            position: relative;
+            min-height: 20px;
+        }
+
+        .risk-value {
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .risk-bar-info {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .detected-sites-section {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+        }
+
+        .detected-sites-section h2 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .sites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .site-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #334155;
+        }
+
+        .site-info {
+            flex: 1;
+        }
+
+        .site-url {
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: break-all;
+        }
+
+        .site-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .site-category {
+            background: #475569;
+            color: #e2e8f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .site-time {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .probability-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            min-width: 150px;
+        }
+
+        .ai-classification {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .ai-classification.safe {
+            background-color: #16a34a;
+            color: white;
+        }
+
+        .ai-classification.unsafe {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .ai-classification.unknown {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .category-section {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid #334155;
+        }
+
+        .category-section h2 {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .category-card {
+            padding: 1.5rem;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #334155;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .category-header h4 {
+            margin: 0;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .category-count {
+            background: #3b82f6;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .risk-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .risk-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .risk-indicator span {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            padding: 40px;
+            font-size: 1.1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        @media (max-width: 768px) {
+            .phishing-dashboard {
+                padding: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .site-item {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .probability-section {
+                align-items: stretch;
+            }
+
+            .risk-history-chart {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="loading">Loading Dashboard...</div>
+    </div>
+
+    <script src="dashboard-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Auto Phishing Detection</title>
+    <style>
+      body {
+        width: 400px;
+        padding: 20px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      h1 {
+        color: #333;
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      .status {
+        background: #e8f5e8;
+        border: 1px solid #4caf50;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 15px;
+        color: #2e7d32;
+      }
+      button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      button:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+      }
+      #output {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 10px;
+        margin-top: 15px;
+        white-space: pre-wrap;
+        font-size: 12px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      .loading {
+        color: #007bff;
+      }
+      .success {
+        color: #28a745;
+      }
+      .error {
+        color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <h1> Auto Phishing Detection</h1>
+    <div class="status">
+      Extension  running
+    </div>
+    <button id="getUrlBtn">Analyze Current Page</button>
+    <button id="dashboardBtn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin-top: 10px; width: 100%;">Open Dashboard</button>
+   
+    <pre id="output"></pre>
+
+    <script src="popup.bundle.js"></script>
+  </body>
+</html>
