@@ -5,7 +5,7 @@
 const LOCAL_SERVER_URL = "http://localhost:5000";
 
 // GitHub Models configuration (same as popup.js)
-const token = "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";
+const token = "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";
 const endpoint = "https://models.github.ai/inference";
 
 const AVAILABLE_MODELS = [
