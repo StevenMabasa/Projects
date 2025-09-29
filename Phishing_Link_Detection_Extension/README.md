@@ -1,12 +1,9 @@
-# AI_in_action
+# HOW TO RUN LOCALLY
 
-# Chat
-https://chatgpt.com/share/68d7af40-e4e0-8013-9f56-ad65a60ef9a5
-
-# Link to model
-https://drive.google.com/file/d/1bStOrJDIE0JTAXFgbk0yVZGt4VFBRuHm/view?usp=sharing
-
-# UNSAFE LINKS
-1.https://uniswapprotocol.limited/
-2.https://e-shopee.online/
-3.https://pancakeswapventures.limited/
+1. Pull this folder to local machine
+2. Open chrome and go to Manage Extensions
+3. Enable Developer Mode
+4. Click on Load unpacked
+5. Select this folder on local machine
+6. You are now ready to use the extension
+7. Visit different websites and the extension will scan the website in the background and a popup will appear with the results
